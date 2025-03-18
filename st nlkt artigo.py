@@ -4,6 +4,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import numpy as np
+import os
 
 # 🔥 Configurar o Streamlit
 st.set_page_config(page_title="Dashboard", layout="wide")
@@ -39,8 +40,14 @@ def set_font_color(color="#D3D3D3"):
 # Chamar a função para definir a cor da fonte
 set_font_color("#1d4851")  # Você pode alterar essa cor facilmente
 
-# Carregar os dados diretamente do pickle
-df = pd.read_pickle(r"C:\Users\guhen\programas\NLTK\NLTKfrequencia_palavras.pkl")
+# Caminho do arquivo local e no Streamlit Cloud
+arquivo_pkl = "NLTKfrequencia_palavras.pkl"
+
+# Verifica se o arquivo existe no ambiente local ou no Streamlit Cloud
+if os.path.exists(arquivo_pkl):
+    df = pd.read_pickle(arquivo_pkl)
+else:
+    st.error(f"Erro: Arquivo `{arquivo_pkl}` não encontrado. Verifique se ele está no repositório do GitHub.")
 
 # Criar o dashboard no Streamlit
 st.markdown("<h1 style='text-align: center;'> Dashboard de Frequência de Palavras</h1>", unsafe_allow_html=True)
